@@ -16,7 +16,7 @@ export interface ChainSetter {
 
 export function useChainSetter(): ChainSetter {
   const [{ wallet }] = useConnectWallet()
-  const [{ connectedChain, settingChain }, setChain] = useSetChain()
+  const [{ connectedChain, settingChain, chains }, setChain] = useSetChain()
   const [customFork, setCustomFork] = useCustomForkParameter()
 
   const addForkToWallet = useCallback(
@@ -51,6 +51,11 @@ export function useChainSetter(): ChainSetter {
       void addForkToWallet(wallet, wallet.chains[0].id as NetworkConfigHexId)
     }
   }, [addForkToWallet, wallet])
+
+  useEffect(() => {
+    console.log('chains', chains)
+    console.log('connectedChain', connectedChain)
+  }, [chains, connectedChain])
 
   const setChainProxy = useCallback(
     async (networkHexId: NetworkConfigHexId, onSuccess: () => void, onReject: () => void) => {
