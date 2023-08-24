@@ -1,5 +1,5 @@
 import { nullAddress } from '@oasisdex/utils'
-import * as dsProxy from 'blockchain/abi/ds-proxy.json'
+import dsProxy from 'blockchain/abi-js/ds-proxy'
 import { getNetworkContracts } from 'blockchain/contracts'
 import { Context } from 'blockchain/network'
 import { contractDesc } from 'blockchain/networks'

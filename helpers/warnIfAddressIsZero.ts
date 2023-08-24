@@ -1,4 +1,4 @@
-import { MainnetContracts } from 'blockchain/contracts/mainnet'
+import type { MainnetContracts } from 'blockchain/contracts/mainnet'
 import { NetworkIds } from 'blockchain/networks'
 
 import { isZeroAddress } from './isZeroAddress'

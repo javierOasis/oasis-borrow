@@ -1,5 +1,5 @@
-import * as erc20 from 'blockchain/abi/erc20.json'
-import * as mcdOsm from 'blockchain/abi/mcd-osm.json'
+import erc20 from 'blockchain/abi-js/erc20'
+import mcdOsm from 'blockchain/abi-js/mcd-osm'
 import { contractDesc } from 'blockchain/networks'
 import { Dictionary } from 'ts-essentials'
 

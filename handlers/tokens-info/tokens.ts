@@ -1,5 +1,5 @@
 import { Tokens } from '@prisma/client'
-import erc20 from 'blockchain/abi/erc20.json'
+import erc20 from 'blockchain/abi-js/erc20'
 import { getRpcProvider } from 'blockchain/networks'
 import { ethers } from 'ethers'
 import { getTokensList } from 'handlers/getTokensList'

@@ -1,4 +1,4 @@
-import dsProxy from 'blockchain/abi/ds-proxy.json'
+import dsProxy from 'blockchain/abi-js/ds-proxy'
 import { TransactionDef } from 'blockchain/calls/callsHelpers'
 import { getNetworkContracts } from 'blockchain/contracts'
 import { ContextConnected } from 'blockchain/network'

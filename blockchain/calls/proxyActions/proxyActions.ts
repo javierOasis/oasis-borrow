@@ -1,5 +1,5 @@
 import { BigNumber } from 'bignumber.js'
-import dsProxy from 'blockchain/abi/ds-proxy.json'
+import dsProxy from 'blockchain/abi-js/ds-proxy'
 import { TransactionDef } from 'blockchain/calls/callsHelpers'
 import { TxMetaKind } from 'blockchain/calls/txMeta'
 import { getNetworkContracts } from 'blockchain/contracts'

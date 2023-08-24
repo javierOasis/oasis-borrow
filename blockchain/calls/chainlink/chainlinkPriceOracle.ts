@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { getNetworkContracts } from 'blockchain/contracts'
-import { MainnetContracts, mainnetContracts } from 'blockchain/contracts/mainnet'
+import type { MainnetContracts } from 'blockchain/contracts/mainnet'
+import mainnetContracts from 'blockchain/contracts/mainnet'
 import { NetworkIds } from 'blockchain/networks'
 import { getRpcProvider } from 'blockchain/networks'
 import { amountFromWei } from 'blockchain/utils'

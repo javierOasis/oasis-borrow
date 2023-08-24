@@ -1,4 +1,4 @@
-import * as mcdGemJoinAbi from 'blockchain/abi/mcd-gem-join.json'
+import mcdGemJoinAbi from 'blockchain/abi-js/mcd-gem-join'
 import { getNetworkContracts } from 'blockchain/contracts'
 import { Context } from 'blockchain/network'
 import { NetworkIds } from 'blockchain/networks'

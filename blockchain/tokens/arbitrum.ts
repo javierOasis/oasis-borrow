@@ -1,6 +1,6 @@
 import { ADDRESSES } from '@oasisdex/addresses'
-import * as erc20 from 'blockchain/abi/erc20.json'
-import * as guniToken from 'blockchain/abi/guni-token.json'
+import erc20 from 'blockchain/abi-js/erc20'
+import guniToken from 'blockchain/abi-js/guni-token'
 import { getCollateralTokens } from 'blockchain/addresses/addressesUtils'
 import { contractDesc } from 'blockchain/networks'
 import { ContractDesc } from 'features/web3Context'

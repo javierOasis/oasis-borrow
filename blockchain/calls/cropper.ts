@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import * as mcdCropJoinAbi from 'blockchain/abi/dss-crop-join.json'
+import mcdCropJoinAbi from 'blockchain/abi-js/dss-crop-join'
 import { getNetworkContracts } from 'blockchain/contracts'
 import { NetworkIds } from 'blockchain/networks'
 import { DssCropper } from 'types/web3-v1-contracts'

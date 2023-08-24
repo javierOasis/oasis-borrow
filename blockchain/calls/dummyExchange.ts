@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import * as dummyExchange from 'blockchain/abi/dummy-exchange.json'
+import dummyExchange from 'blockchain/abi-js/dummy-exchange'
 import { getNetworkContracts } from 'blockchain/contracts'
 import { NetworkIds } from 'blockchain/networks'
 import { contractDesc } from 'blockchain/networks'

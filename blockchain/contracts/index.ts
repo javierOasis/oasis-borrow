@@ -1,32 +1,13 @@
 import { Tokens } from '@prisma/client'
-import * as erc20 from 'blockchain/abi/erc20.json'
+import erc20 from 'blockchain/abi-js/erc20'
 import { getContractNetworkByWalletNetwork, NetworkIds, networkSetById } from 'blockchain/networks'
 import { ContractDesc } from 'features/web3Context'
 
-import { arbitrumContracts } from './arbitrum'
-import { goerliContracts } from './goerli'
-import { mainnetContracts } from './mainnet'
-import { optimismContracts } from './optimism'
+import { allNetworksContracts, AllNetworksContractsType } from './all-network-contracts'
 
 // this const will contain contracts of tokens, that aren't a part of original config
 // but identified by identifyTokens$ observable whenever it's called
 const extendedTokensContracts: { [key: string]: ContractDesc & { genesisBlock: number } } = {}
-
-export const allNetworksContracts = {
-  [NetworkIds.MAINNET]: mainnetContracts,
-  [NetworkIds.HARDHAT]: mainnetContracts,
-  [NetworkIds.GOERLI]: goerliContracts,
-  [NetworkIds.OPTIMISMMAINNET]: optimismContracts,
-  // empty contracts config - to be filled
-  [NetworkIds.ARBITRUMMAINNET]: arbitrumContracts,
-  [NetworkIds.ARBITRUMGOERLI]: {},
-  [NetworkIds.POLYGONMAINNET]: {},
-  [NetworkIds.POLYGONMUMBAI]: {},
-  [NetworkIds.OPTIMISMGOERLI]: {},
-  [NetworkIds.EMPTYNET]: {},
-}
-
-export type AllNetworksContractsType = typeof allNetworksContracts
 
 export function getNetworkContracts<NetworkId extends NetworkIds>(
   contractChainId: NetworkId,
