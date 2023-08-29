@@ -27,11 +27,9 @@ export async function getCloseAaveParameters({
     precision: currentPosition.debt.precision,
   }
 
-  const addresses = getAddresses(networkId)
-
   type closeParameters =
-    | Parameters<typeof strategies.aave.v2.close>
-    | Parameters<typeof strategies.aave.v3.close>
+    | Parameters<typeof strategies.aave.multiply.v2.close>
+    | Parameters<typeof strategies.aave.multiply.v3.close>
   const stratArgs: closeParameters[0] = {
     slippage,
     debtToken,
@@ -40,11 +38,9 @@ export async function getCloseAaveParameters({
     shouldCloseToCollateral,
   }
 
-  const stratDeps: closeParameters[1] = {
-    addresses,
+  const stratDeps: Omit<closeParameters[1], 'addresses' | 'getSwapData'> = {
     currentPosition,
     provider: getRpcProvider(networkId),
-    getSwapData: swapCall(addresses, networkId),
     proxy: proxyAddress,
     user: userAddress,
     isDPMProxy: proxyType === ProxyType.DpmProxy,
@@ -53,8 +49,18 @@ export async function getCloseAaveParameters({
 
   switch (protocol) {
     case LendingProtocol.AaveV2:
-      return strategies.aave.v2.close(stratArgs, stratDeps)
+      const addressesV2 = getAddresses(networkId, 'v2')
+      return strategies.aave.multiply.v2.close(stratArgs, {
+        ...stratDeps,
+        addresses: addressesV2,
+        getSwapData: swapCall(addressesV2, networkId),
+      })
     case LendingProtocol.AaveV3:
-      return strategies.aave.v3.close(stratArgs, stratDeps)
+      const addressesV3 = getAddresses(networkId, 'v3')
+      return strategies.aave.multiply.v3.close(stratArgs, {
+        ...stratDeps,
+        addresses: addressesV3,
+        getSwapData: swapCall(addressesV3, networkId),
+      })
   }
 }

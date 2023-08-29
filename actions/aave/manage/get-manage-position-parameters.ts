@@ -49,16 +49,16 @@ export async function getManagePositionParameters(
   } = parameters
 
   const provider = getRpcProvider(networkId)
-
-  const addresses = getAddresses(networkId)
+  const addressesV2 = getAddresses(networkId, 'v2')
+  const addressesV3 = getAddresses(networkId, 'v3')
 
   const [collateral, debt] = getTokensInBaseUnit(parameters)
 
   switch (manageTokenInput?.manageTokenAction) {
     case ManageDebtActionsEnum.PAYBACK_DEBT:
     case ManageCollateralActionsEnum.WITHDRAW_COLLATERAL:
-      type paybackWithdrawTypes = Parameters<typeof strategies.aave.v2.paybackWithdraw> &
-        Parameters<typeof strategies.aave.v3.paybackWithdraw>
+      type paybackWithdrawTypes = Parameters<typeof strategies.aave.borrow.v2.paybackWithdraw> &
+        Parameters<typeof strategies.aave.borrow.v3.paybackWithdraw>
 
       const paybackWithdrawStratArgs: paybackWithdrawTypes[0] = {
         slippage,
@@ -74,8 +74,7 @@ export async function getManagePositionParameters(
         amountDebtToPaybackInBaseUnit: debt,
       }
 
-      const paybackWithdrawStratDeps: paybackWithdrawTypes[1] = {
-        addresses,
+      const paybackWithdrawStratDeps: Omit<paybackWithdrawTypes[1], 'addresses'> = {
         currentPosition,
         provider: provider,
         proxy: proxyAddress,
@@ -84,17 +83,19 @@ export async function getManagePositionParameters(
       }
 
       if (protocol === LendingProtocol.AaveV2) {
-        return await strategies.aave.v2.paybackWithdraw(
-          paybackWithdrawStratArgs,
-          paybackWithdrawStratDeps,
-        )
+        const addressesV2 = getAddresses(networkId, 'v2')
+        return await strategies.aave.borrow.v2.paybackWithdraw(paybackWithdrawStratArgs, {
+          ...paybackWithdrawStratDeps,
+          addresses: addressesV2,
+        })
       }
 
       if (protocol === LendingProtocol.AaveV3) {
-        return await strategies.aave.v3.paybackWithdraw(
-          paybackWithdrawStratArgs,
-          paybackWithdrawStratDeps,
-        )
+        const addressesV3 = getAddresses(networkId, 'v3')
+        return await strategies.aave.borrow.v3.paybackWithdraw(paybackWithdrawStratArgs, {
+          ...paybackWithdrawStratDeps,
+          addresses: addressesV3,
+        })
       }
 
       throw new Error(
@@ -102,8 +103,8 @@ export async function getManagePositionParameters(
       )
     case ManageDebtActionsEnum.BORROW_DEBT:
     case ManageCollateralActionsEnum.DEPOSIT_COLLATERAL:
-      type borrowDepositTypes = Parameters<typeof strategies.aave.v2.depositBorrow> &
-        Parameters<typeof strategies.aave.v3.depositBorrow>
+      type borrowDepositTypes = Parameters<typeof strategies.aave.borrow.v2.depositBorrow> &
+        Parameters<typeof strategies.aave.borrow.v3.depositBorrow>
 
       const borrowDepositStratArgs: borrowDepositTypes[0] = {
         debtToken: {
@@ -123,8 +124,7 @@ export async function getManagePositionParameters(
         },
       }
 
-      const borrowDepositStratDeps: borrowDepositTypes[1] = {
-        addresses,
+      const borrowDepositStratDeps: Omit<borrowDepositTypes[1], 'addresses'> = {
         currentPosition,
         provider: provider,
         proxy: proxyAddress,
@@ -132,16 +132,16 @@ export async function getManagePositionParameters(
         network: networkIdToLibraryNetwork(networkId),
       }
       if (protocol === LendingProtocol.AaveV2) {
-        return await strategies.aave.v2.depositBorrow(
-          borrowDepositStratArgs,
-          borrowDepositStratDeps,
-        )
+        return await strategies.aave.borrow.v2.depositBorrow(borrowDepositStratArgs, {
+          ...borrowDepositStratDeps,
+          addresses: addressesV2,
+        })
       }
       if (protocol === LendingProtocol.AaveV3) {
-        return await strategies.aave.v3.depositBorrow(
-          borrowDepositStratArgs,
-          borrowDepositStratDeps,
-        )
+        return await strategies.aave.borrow.v3.depositBorrow(borrowDepositStratArgs, {
+          ...borrowDepositStratDeps,
+          addresses: addressesV3,
+        })
       }
 
       throw new Error(

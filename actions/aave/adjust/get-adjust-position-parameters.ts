@@ -30,12 +30,10 @@ export async function getAdjustPositionParameters({
       precision: currentPosition.debt.precision,
     }
 
-    type strategyArguments = Parameters<typeof strategies.aave.v2.adjust>[0] &
-      Parameters<typeof strategies.aave.v3.adjust>[0]
-    type strategyDependencies = Parameters<typeof strategies.aave.v2.adjust>[1] &
-      Parameters<typeof strategies.aave.v3.adjust>[1]
-
-    const addresses = getAddresses(networkId)
+    type strategyArguments = Parameters<typeof strategies.aave.multiply.v2.adjust>[0] &
+      Parameters<typeof strategies.aave.multiply.v3.adjust>[0]
+    type strategyDependencies = Parameters<typeof strategies.aave.multiply.v2.adjust>[1] &
+      Parameters<typeof strategies.aave.multiply.v3.adjust>[1]
 
     const args: strategyArguments = {
       slippage,
@@ -45,11 +43,9 @@ export async function getAdjustPositionParameters({
       positionType,
     }
 
-    const stratDeps: strategyDependencies = {
-      addresses,
+    const stratDeps: Omit<strategyDependencies, 'addresses' | 'getSwapData'> = {
       currentPosition,
       provider: provider,
-      getSwapData: swapCall(addresses, networkId),
       proxy: proxyAddress,
       user: userAddress,
       isDPMProxy: proxyType === ProxyType.DpmProxy,
@@ -58,9 +54,19 @@ export async function getAdjustPositionParameters({
 
     switch (protocol) {
       case LendingProtocol.AaveV2:
-        return await strategies.aave.v2.adjust(args, stratDeps)
+        const addressesV2 = getAddresses(networkId, 'v2')
+        return await strategies.aave.multiply.v2.adjust(args, {
+          ...stratDeps,
+          addresses: addressesV2,
+          getSwapData: swapCall(addressesV2, networkId),
+        })
       case LendingProtocol.AaveV3:
-        return await strategies.aave.v3.adjust(args, stratDeps)
+        const addressesV3 = getAddresses(networkId, 'v3')
+        return await strategies.aave.multiply.v3.adjust(args, {
+          ...stratDeps,
+          addresses: addressesV3,
+          getSwapData: swapCall(addressesV3, networkId),
+        })
     }
   } catch (e) {
     console.error(e)

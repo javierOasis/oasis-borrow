@@ -28,7 +28,7 @@ export async function getOpenDepositBorrowPositionParameters(
 
   assertNetwork(networkId)
 
-  type types = Parameters<typeof strategies.aave.v3.openDepositBorrow>
+  type types = Parameters<typeof strategies.aave.borrow.v3.openDepositBorrow>
 
   const libArgs: types[0] = {
     slippage,
@@ -57,5 +57,5 @@ export async function getOpenDepositBorrowPositionParameters(
     positionType: 'Borrow' as const,
   }
 
-  return await strategies.aave.v3.openDepositBorrow(libArgs, deps)
+  return await strategies.aave.borrow.v3.openDepositBorrow(libArgs, deps)
 }
