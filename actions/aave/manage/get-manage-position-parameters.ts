@@ -1,5 +1,5 @@
 import { AAVETokens, IStrategy, strategies } from '@oasisdex/dma-library'
-import { getTokenAddresses } from 'actions/aave/get-token-addresses'
+import { getAddresses } from 'actions/aave/get-addresses'
 import { networkIdToLibraryNetwork } from 'actions/aave/helpers'
 import { ManageAaveParameters } from 'actions/aave/types'
 import BigNumber from 'bignumber.js'
@@ -50,7 +50,7 @@ export async function getManagePositionParameters(
 
   const provider = getRpcProvider(networkId)
 
-  const addresses = getTokenAddresses(networkId)
+  const addresses = getAddresses(networkId)
 
   const [collateral, debt] = getTokensInBaseUnit(parameters)
 

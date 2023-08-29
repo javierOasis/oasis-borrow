@@ -1,5 +1,5 @@
 import { AAVETokens, PositionTransition, strategies } from '@oasisdex/dma-library'
-import { getTokenAddresses } from 'actions/aave/get-token-addresses'
+import { getAddresses } from 'actions/aave/get-addresses'
 import { networkIdToLibraryNetwork, swapCall } from 'actions/aave/helpers'
 import { AdjustAaveParameters } from 'actions/aave/types'
 import { getRpcProvider } from 'blockchain/networks'
@@ -35,7 +35,7 @@ export async function getAdjustPositionParameters({
     type strategyDependencies = Parameters<typeof strategies.aave.v2.adjust>[1] &
       Parameters<typeof strategies.aave.v3.adjust>[1]
 
-    const addresses = getTokenAddresses(networkId)
+    const addresses = getAddresses(networkId)
 
     const args: strategyArguments = {
       slippage,

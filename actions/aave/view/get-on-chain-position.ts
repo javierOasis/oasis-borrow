@@ -1,5 +1,5 @@
-import { AAVETokens, IPosition, strategies } from '@oasisdex/dma-library'
-import { getTokenAddresses } from 'actions/aave/get-token-addresses'
+import { AAVETokens, IPosition, views } from '@oasisdex/dma-library'
+import { getAddresses } from 'actions/aave/get-addresses'
 import { GetOnChainPositionParams } from 'actions/aave/types'
 import { getRpcProvider } from 'blockchain/networks'
 import { getToken } from 'blockchain/tokensMetadata'
@@ -24,27 +24,27 @@ export async function getOnChainPosition({
     precision: getToken(debtToken).precision,
   }
 
-  const addresses = getTokenAddresses(networkId)
-
   if (protocol === LendingProtocol.AaveV3) {
-    return await strategies.aave.v3.view(
+    const addressesV3 = getAddresses(networkId, 'v3')
+    return await views.aave.v3(
       {
         proxy: proxyAddress,
         collateralToken: _collateralToken,
         debtToken: _debtToken,
       },
-      { addresses, provider },
+      { addresses: addressesV3, provider },
     )
   }
 
   if (protocol === LendingProtocol.AaveV2) {
-    return await strategies.aave.v2.view(
+    const addressesV2 = getAddresses(networkId, 'v2')
+    return await views.aave.v2(
       {
         proxy: proxyAddress,
         collateralToken: _collateralToken,
         debtToken: _debtToken,
       },
-      { addresses, provider },
+      { addresses: addressesV2, provider },
     )
   }
 

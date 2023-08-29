@@ -1,5 +1,5 @@
 import { AAVETokens, IRiskRatio, PositionTransition, strategies } from '@oasisdex/dma-library'
-import { getTokenAddresses } from 'actions/aave/get-token-addresses'
+import { getAddresses } from 'actions/aave/get-addresses'
 import { assertProtocol } from 'actions/aave/guards'
 import { networkIdToLibraryNetwork, swapCall } from 'actions/aave/helpers'
 import { OpenMultiplyAaveParameters } from 'actions/aave/types'
@@ -33,8 +33,8 @@ async function openPosition(
 
   const network = networkIdToLibraryNetwork(networkId)
 
-  const args: Parameters<typeof strategies.aave.v2.open>[0] &
-    Parameters<typeof strategies.aave.v3.open>[0] = {
+  const args: Parameters<typeof strategies.aave.multiply.v2.open>[0] &
+    Parameters<typeof strategies.aave.multiply.v3.open>[0] = {
     slippage,
     multiple: riskRatio,
     debtToken: debtToken,
@@ -43,13 +43,10 @@ async function openPosition(
     positionType: positionType,
   }
 
-  const addresses = getTokenAddresses(networkId)
-
-  const dependencies: Parameters<typeof strategies.aave.v2.open>[1] &
-    Parameters<typeof strategies.aave.v3.open>[1] = {
-    addresses,
+  type SharedDependencies = Parameters<typeof strategies.aave.multiply.v2.open>[1] &
+    Parameters<typeof strategies.aave.multiply.v3.open>[1]
+  const sharedDependencies: Omit<SharedDependencies, 'addresses' | 'getSwapData'> = {
     provider: getRpcProvider(networkId),
-    getSwapData: swapCall(addresses, networkId),
     proxy: proxyAddress,
     user: proxyAddress !== ethNullAddress ? userAddress : ethNullAddress,
     isDPMProxy: proxyType === ProxyType.DpmProxy,
@@ -58,9 +55,21 @@ async function openPosition(
 
   switch (protocol) {
     case LendingProtocol.AaveV2:
-      return await strategies.aave.v2.open(args, dependencies)
+      const v2Addresses = getAddresses(networkId, 'v2')
+      const dependenciesV2 = {
+        ...sharedDependencies,
+        addresses: getAddresses(networkId, 'v2'),
+        getSwapData: swapCall(v2Addresses, networkId),
+      }
+      return await strategies.aave.multiply.v2.open(args, dependenciesV2)
     case LendingProtocol.AaveV3:
-      return await strategies.aave.v3.open(args, dependencies)
+      const v3Addresses = getAddresses(networkId, 'v3')
+      const dependenciesV3 = {
+        ...sharedDependencies,
+        addresses: getAddresses(networkId, 'v3'),
+        getSwapData: swapCall(v3Addresses, networkId),
+      }
+      return await strategies.aave.multiply.v3.open(args, dependenciesV3)
     default:
       throw new Error('Unsupported protocol')
   }

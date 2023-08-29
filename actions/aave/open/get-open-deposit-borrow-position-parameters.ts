@@ -1,5 +1,5 @@
 import { IOpenDepositBorrowStrategy, strategies } from '@oasisdex/dma-library'
-import { getTokenAddresses } from 'actions/aave/get-token-addresses'
+import { getAddresses } from 'actions/aave/get-addresses'
 import { networkIdToLibraryNetwork } from 'actions/aave/helpers'
 import { OpenAaveDepositBorrowParameters } from 'actions/aave/types'
 import { getRpcProvider, NetworkIds } from 'blockchain/networks'
@@ -49,7 +49,7 @@ export async function getOpenDepositBorrowPositionParameters(
   }
 
   const deps: types[1] = {
-    addresses: getTokenAddresses(networkId),
+    addresses: getAddresses(networkId, 'v3'),
     provider: getRpcProvider(networkId),
     proxy: proxyAddress,
     user: userAddress,
