@@ -2682,12 +2682,12 @@
           }
         },
         "dupe-modal": {
-          "title": "Are you sure you want to open a new {{product}} position in the Ajna {{collateralToken}}/{{quoteToken}} pool?",
+          "title": "Are you sure you want to open a new Ajna {{collateralToken}}/{{quoteToken}} {{product}} Position?",
           "description-borrower-singular": "You already have borrower position in this pool.",
           "description-borrower-plural": "You already have borrower positions in this pool.",
           "description-lender-singular": "You already have lender position in this pool.",
           "description-lender-plural": "You already have lender positions in this pool.",
-          "help": "You can either create a new position in this pool or go to your existing position.",
+          "help": "You can go to your existing position or create a new position, this will require you to create a new Smart DeFi Account.",
           "cta-primary": "Go to your Portfolio",
           "cta-textual": "Open new position"
         },
