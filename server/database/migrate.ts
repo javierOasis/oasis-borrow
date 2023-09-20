@@ -2,7 +2,12 @@ import dotenv from 'dotenv'
 import { join } from 'path'
 import pg from 'pg'
 import { migrate } from 'postgres-migrations'
-dotenv.config()
+dotenv.config({
+  path: '.env',
+})
+dotenv.config({
+  path: '.env.local',
+})
 
 async function main() {
   if (!process.env.DATABASE_URL) {
