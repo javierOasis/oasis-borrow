@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import { join } from 'path'
 import pg from 'pg'
 import { migrate } from 'postgres-migrations'
+
 dotenv.config({
   path: '.env',
 })
