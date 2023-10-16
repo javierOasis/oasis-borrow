@@ -7,19 +7,12 @@
       "command": "yarn install"
     },
     "start-production": {
-      "name": "Run Production Server",
-      "command": "yarn start:preview",
+      "name": "Run DEV Server",
+      "command": "yarn start",
       "runAtStart": true,
       "preview": {
         "port": 3000,
         "prLink": "direct"
-      },
-      "restartOn": {
-        "branch": true,
-        "files": [
-          "/**/*.{ts,tsx}",
-          "package.json"
-        ]
       }
     },
     "update-product-hub": {
