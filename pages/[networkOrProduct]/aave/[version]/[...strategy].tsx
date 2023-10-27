@@ -14,7 +14,7 @@ import { INTERNAL_LINKS } from 'helpers/applicationLinks'
 import type { LendingProtocol } from 'lendingProtocols'
 import type { GetServerSidePropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { BackgroundLight } from 'theme/BackgroundLight'
 

@@ -4,7 +4,7 @@ import { AppLayout } from 'components/layouts/AppLayout'
 import { useAccount } from 'helpers/useAccount'
 import type { GetServerSidePropsContext } from 'next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
